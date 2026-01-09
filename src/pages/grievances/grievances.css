@@ -1,0 +1,122 @@
+.grievance-page {
+  padding: 30px;
+}
+
+.grievance-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.grievance-header button {
+  background: #2563eb;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: none;
+}
+
+.grievance-table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.grievance-table th,
+.grievance-table td {
+  padding: 14px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.status.open {
+  color: #ca8a04;
+}
+
+.status.in_progress {
+  color: #2563eb;
+}
+
+.status.resolved {
+  color: #16a34a;
+}
+
+.status.rejected {
+  color: #dc2626;
+}
+
+.progress {
+  background: #2563eb;
+  color: white;
+  margin-right: 6px;
+}
+
+.approve {
+  background: #16a34a;
+  color: white;
+  margin-right: 6px;
+}
+
+.reject {
+  background: #dc2626;
+  color: white;
+  margin-right: 6px;
+}
+
+.danger {
+  background: #7f1d1d;
+  color: white;
+}
+
+.grievance-form {
+  max-width: 420px;
+  padding: 40px;
+}
+
+.grievance-form input,
+.grievance-form textarea,
+.grievance-form select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 14px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+}
+
+.grievance-form button {
+  width: 100%;
+  padding: 12px;
+  background: #2563eb;
+  color: white;
+  border-radius: 8px;
+  border: none;
+}
+
+.empty {
+  text-align: center;
+  padding: 20px;
+  color: #6b7280;
+}
+
+.status.open { color: #ca8a04; }
+.status.in_progress { color: #2563eb; }
+.status.resolved { color: #16a34a; }
+.status.closed { color: #6b7280; }
+
+.grievance-detail {
+  padding: 30px;
+  max-width: 700px;
+}
+
+.updates {
+  margin: 20px 0;
+}
+
+.update-item {
+  background: #f8fafc;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}

@@ -1,0 +1,76 @@
+.transfer-page {
+  padding: 30px;
+}
+
+.transfer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.transfer-header button {
+  background: #2563eb;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: none;
+}
+
+.transfer-table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.transfer-table th,
+.transfer-table td {
+  padding: 14px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.status.pending { color: #ca8a04; }
+.status.approved { color: #16a34a; }
+.status.rejected { color: #dc2626; }
+
+.approve {
+  background: #16a34a;
+  color: white;
+  margin-right: 6px;
+}
+
+.reject {
+  background: #dc2626;
+  color: white;
+}
+
+.transfer-form {
+  max-width: 450px;
+  padding: 40px;
+}
+
+.transfer-form select,
+.transfer-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 14px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+}
+
+.transfer-form button {
+  width: 100%;
+  padding: 12px;
+  background: #2563eb;
+  color: white;
+  border-radius: 8px;
+  border: none;
+}
+
+.empty {
+  text-align: center;
+  padding: 20px;
+  color: #6b7280;
+}

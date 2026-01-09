@@ -1,0 +1,94 @@
+.leave-page {
+  padding: 30px;
+}
+
+.leave-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.leave-header button {
+  background: #2563eb;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: none;
+}
+
+.leave-table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.leave-table th,
+.leave-table td {
+  padding: 14px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.status.pending {
+  color: #ca8a04;
+  font-weight: 500;
+}
+
+.status.approved {
+  color: #16a34a;
+  font-weight: 500;
+}
+
+.status.rejected {
+  color: #dc2626;
+  font-weight: 500;
+}
+
+.approve {
+  background: #16a34a;
+  color: white;
+  margin-right: 6px;
+}
+
+.reject {
+  background: #dc2626;
+  color: white;
+  margin-right: 6px;
+}
+
+.danger {
+  background: #7f1d1d;
+  color: white;
+}
+
+.leave-form {
+  max-width: 420px;
+  padding: 40px;
+}
+
+.leave-form input,
+.leave-form select,
+.leave-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 14px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+}
+
+.leave-form button {
+  width: 100%;
+  padding: 12px;
+  background: #2563eb;
+  color: white;
+  border-radius: 8px;
+  border: none;
+}
+
+.empty {
+  text-align: center;
+  padding: 20px;
+  color: #6b7280;
+}
