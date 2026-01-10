@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { signIn } from "../../services/authService";
 import { useNavigate } from "react-router-dom";
+import "./auth.css";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -17,8 +18,8 @@ export default function Login() {
 
     try {
       setLoading(true);
-      const role = await signIn(email, password);
-      navigate(`/dashboard`);
+      await signIn(email, password);
+      navigate("/dashboard");
     } catch (err) {
       alert(err.message);
     } finally {
@@ -27,32 +28,34 @@ export default function Login() {
   };
 
   return (
-    <div style={{ padding: "40px", maxWidth: "400px", margin: "auto" }}>
-      <h2>Login</h2>
+    <div className="auth-page">
+      <div className="auth-card">
+        <h2>HRMS Login</h2>
+        <p className="auth-subtitle">Sign in to continue</p>
 
-      <input
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        style={{ width: "100%", marginBottom: "10px" }}
-      />
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        style={{ width: "100%", marginBottom: "20px" }}
-      />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-      <button
-        onClick={handleLogin}
-        disabled={loading}
-        style={{ width: "100%" }}
-      >
-        {loading ? "Logging in..." : "Login"}
-      </button>
+        <button onClick={handleLogin} disabled={loading}>
+          {loading ? "Logging in..." : "Login"}
+        </button>
 
+        <div className="auth-link">
+          Don’t have an account?{" "}
+          <span onClick={() => navigate("/signup")}>Sign up</span>
+        </div>
+      </div>
     </div>
   );
 }

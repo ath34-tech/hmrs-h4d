@@ -54,15 +54,26 @@ export default function PayrollCycles() {
               <td>{c.month}</td>
               <td>{c.year}</td>
               <td className={`status ${c.status}`}>{c.status}</td>
-              <td>
-                <button onClick={() => navigate(`/payroll/${c.id}`)}>
+              <td className="actions">
+                <button
+                  className="view"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    navigate(`/payroll/${c.id}`);
+                  }}
+                >
                   View Payslips
                 </button>
 
                 {c.status === "processing" && (
                   <button
-                    className="approve"
-                    onClick={() => finalizeCycle(c.id)}
+                    className="finalize"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation(); 
+                      finalizeCycle(c.id);
+                    }}
                   >
                     Finalize
                   </button>

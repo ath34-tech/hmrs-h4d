@@ -92,7 +92,7 @@ export default function AttendanceForm() {
       />
 
       <input
-        type="time"
+        type="time" step="60"
         value={form.check_out}
         onChange={(e) => setForm({ ...form, check_out: e.target.value })}
       />

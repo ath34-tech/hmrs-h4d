@@ -51,10 +51,11 @@ export default function AttendanceList() {
               <td className={`status ${r.status}`}>{r.status}</td>
               <td>{r.check_in || "-"}</td>
               <td>{r.check_out || "-"}</td>
-              <td>
+              <td className="actions">
                 <button onClick={() => navigate(`/attendance/${r.id}/edit`)}>
                   Edit
                 </button>
+
                 <button className="danger" onClick={() => handleDelete(r.id)}>
                   Delete
                 </button>

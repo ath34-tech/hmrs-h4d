@@ -1,3 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+/* ================== SIDEBAR CONTAINER ================== */
+
 .sidebar {
   width: 240px;
   background-color: #ffffff;
@@ -5,18 +9,25 @@
   display: flex;
   flex-direction: column;
   padding: 20px;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont;
 }
 
+/* ================== HEADER ================== */
+
 .sidebar-header h2 {
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 22px;
+  font-weight: 700;
   color: #2563eb;
+  letter-spacing: -0.3px;
 }
 
 .sidebar-header span {
-  font-size: 12px;
+  font-size: 13px;
   color: #6b7280;
+  font-weight: 500;
 }
+
+/* ================== MENU ================== */
 
 .sidebar-menu {
   list-style: none;
@@ -25,65 +36,55 @@
   flex: 1;
 }
 
-.sidebar-menu li {
-  padding: 12px 14px;
-  border-radius: 8px;
-  font-size: 14px;
-  color: #374151;
-  cursor: pointer;
-  margin-bottom: 6px;
-  transition: background 0.2s ease;
+/* Link Style */
+.sidebar-link {
+  display: block;
+  padding: 14px 16px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #1f2937;
+  text-decoration: none;
+  margin-bottom: 8px;
+  transition: all 0.2s ease;
+  letter-spacing: -0.2px;
 }
 
-.sidebar-menu li:hover {
-  background-color: #f1f5f9;
+/* Hover */
+.sidebar-link:hover {
+  background-color: #f8fafc;
+  color: #2563eb;
 }
 
-.sidebar-menu li.active {
+/* Active */
+.sidebar-link.active {
   background-color: #eff6ff;
   color: #2563eb;
-  font-weight: 500;
+  font-weight: 600;
+  box-shadow: inset 4px 0 0 #2563eb;
 }
+
+/* ================== FOOTER ================== */
 
 .sidebar-footer {
   margin-top: auto;
 }
 
+/* ================== LOGOUT ================== */
+
 .logout-btn {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   border: none;
-  border-radius: 8px;
-  background-color: #ef4444;
-  color: white;
+  border-radius: 10px;
+  background-color: #dc2626;
+  color: #f8f3f3;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  transition: 0.2s;
 }
 
 .logout-btn:hover {
-  background-color: #dc2626;
-}
-.sidebar-menu li {
-  list-style: none;
-}
-
-.sidebar-link {
-  display: block;
-  padding: 12px 14px;
-  border-radius: 8px;
-  font-size: 14px;
-  color: #374151;
-  text-decoration: none;
-  margin-bottom: 6px;
-  transition: background 0.2s ease;
-}
-
-.sidebar-link:hover {
-  background-color: #f1f5f9;
-}
-
-.sidebar-link.active {
-  background-color: #eff6ff;
-  color: #2563eb;
-  font-weight: 500;
+  background-color: #8e0202;
 }

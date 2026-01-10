@@ -51,11 +51,13 @@ export default function GrievanceList() {
               <td>{g.category}</td>
               <td className={`status ${g.status}`}>{g.status}</td>
               <td>{g.sla_deadline ? g.sla_deadline.split("T")[0] : "-"}</td>
-              <td>
-                <button onClick={() => navigate(`/grievances/${g.id}`)}>
+              <td className="actions">
+                <button
+                  className="view"
+                  onClick={() => navigate(`/grievances/${g.id}`)}
+                >
                   View
                 </button>
-
                 {g.status !== "closed" && (
                   <>
                     <button onClick={() => changeStatus(g.id, "in_progress")}>

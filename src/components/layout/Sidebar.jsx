@@ -1,7 +1,15 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { signOut } from "../../services/authService";
 import "./sidebar.css";
 
 export default function Sidebar() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    signOut();          // remove localStorage session
+    navigate("/login"); // go to login page
+  };
+
   return (
     <div className="sidebar">
       {/* HEADER */}
@@ -24,7 +32,9 @@ export default function Sidebar() {
 
       {/* FOOTER */}
       <div className="sidebar-footer">
-        <button className="logout-btn">Logout</button>
+        <button className="logout-btn" onClick={handleLogout}>
+          Logout
+        </button>
       </div>
     </div>
   );

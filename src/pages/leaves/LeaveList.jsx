@@ -66,7 +66,7 @@ export default function LeaveList() {
               <td className={`status ${l.status}`}>{l.status}</td>
               <td>{l.approved_by?.email || "-"}</td>
 
-              <td>
+              <td className="actions">
                 {l.status === "pending" && (
                   <>
                     <button

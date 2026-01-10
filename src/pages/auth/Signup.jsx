@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { signUp } from "../../services/authService";
 import { useNavigate } from "react-router-dom";
+import "./auth.css";
 
 export default function Signup() {
   const [email, setEmail] = useState("");
@@ -34,53 +35,40 @@ export default function Signup() {
   };
 
   return (
-    <div style={{ padding: "40px", maxWidth: "400px", margin: "auto" }}>
-      <h2>Signup</h2>
+    <div className="auth-page">
+      <div className="auth-card">
+        <h2>Create Account</h2>
+        <p className="auth-subtitle">Register to access HRMS</p>
 
-      <input
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        style={{ width: "100%", marginBottom: "10px" }}
-      />
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        style={{ width: "100%", marginBottom: "10px" }}
-      />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-      {/* ROLE SELECTION */}
-      <select
-        value={role}
-        onChange={(e) => setRole(e.target.value)}
-        style={{ width: "100%", marginBottom: "20px" }}
-      >
-        <option value="employee">Employee</option>
-        <option value="supervisor">Supervisor</option>
-        <option value="hr">HR</option>
-        {/* ❌ Admin signup intentionally disabled */}
-      </select>
+        <select value={role} onChange={(e) => setRole(e.target.value)}>
+          <option value="employee">Employee</option>
+          <option value="supervisor">Supervisor</option>
+          <option value="hr">HR</option>
+        </select>
 
-      <button
-        onClick={handleSignup}
-        disabled={loading}
-        style={{ width: "100%" }}
-      >
-        {loading ? "Creating account..." : "Signup"}
-      </button>
+        <button onClick={handleSignup} disabled={loading}>
+          {loading ? "Creating account..." : "Signup"}
+        </button>
 
-      <p style={{ marginTop: "15px" }}>
-        Already have an account?{" "}
-        <span
-          style={{ color: "blue", cursor: "pointer" }}
-          onClick={() => navigate("/login")}
-        >
-          Login
-        </span>
-      </p>
+        <div className="auth-link">
+          Already have an account?{" "}
+          <span onClick={() => navigate("/login")}>Login</span>
+        </div>
+      </div>
     </div>
   );
 }

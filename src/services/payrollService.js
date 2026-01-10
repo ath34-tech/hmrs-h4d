@@ -26,13 +26,16 @@ export const createPayrollCycle = async (month, year) => {
 };
 
 export const finalizePayrollCycle = async (cycleId) => {
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from("payroll_cycles")
     .update({ status: "finalized" })
-    .eq("id", cycleId);
+    .eq("id", cycleId)
+    .select();
 
   if (error) throw error;
+  return data;
 };
+
 
 /* =====================
    PAYSLIPS
