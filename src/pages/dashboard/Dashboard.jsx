@@ -107,7 +107,7 @@ export default function Dashboard() {
         {(role === "admin" || role === "hr") && (
           <div className="stats-grid">
             <StatCard title="Total Employees" value={loading ? "—" : stats?.totalEmployees} />
-            <StatCard title="Active Employees" value={loading ? "—" : stats?.activeEmployees} />
+            <StatCard title="Active Employees" value={loading ? "—" : stats?.totalEmployees} />
             <StatCard title="Pending Leaves" value={loading ? "—" : stats?.pendingLeaves} />
             <StatCard title="Open Grievances" value={loading ? "—" : stats?.openGrievances} />
             <StatCard title="Pending Transfers" value={loading ? "—" : stats?.pendingTransfers} />
