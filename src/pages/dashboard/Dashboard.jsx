@@ -23,8 +23,32 @@ import {
   CartesianGrid,
 } from "recharts";
 
+/* ===== MAP ===== */
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import L from "leaflet";
+
 /* ===== COLORS ===== */
 const COLORS = ["#2563eb", "#60a5fa", "#93c5fd", "#1e40af", "#3b82f6"];
+
+/* ===== RED MARKER ICON ===== */
+const redIcon = new L.Icon({
+  iconUrl:
+    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
+  shadowUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+});
+
+/* ===== HARDCODED EMPLOYEE LOCATIONS ===== */
+const activeEmployees = [
+  { name: "Ramesh Kumar", lat: 28.6139, lng: 77.209 },
+  { name: "Suresh Sharma", lat: 28.6122, lng: 77.199 },
+  { name: "Amit Verma", lat: 28.6120, lng: 77.200 },
+    { name: "Ammesh Kumar", lat: 28.6130, lng: 77.209 },
+  { name: "Naresh Sharma", lat: 28.6122, lng: 77.219 },
+  { name: "Amit narayan", lat: 28.6120, lng: 77.210 },
+];
 
 export default function Dashboard() {
   const [stats, setStats] = useState(null);
@@ -33,8 +57,6 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
-
-  // 🔑 Normalize role (THIS FIXES HR ISSUE)
   const role = localStorage.getItem("role")?.toLowerCase().trim();
 
   useEffect(() => {
@@ -75,13 +97,13 @@ export default function Dashboard() {
     <div className="dashboard-container">
       <div className="dashboard-main">
 
-        {/* ================= HEADER ================= */}
+        {/* HEADER */}
         <div className="dashboard-header">
           <h1>Dashboard</h1>
           <p>System overview and analytics</p>
         </div>
 
-        {/* ================= STATS (ADMIN + HR) ================= */}
+        {/* STATS */}
         {(role === "admin" || role === "hr") && (
           <div className="stats-grid">
             <StatCard title="Total Employees" value={loading ? "—" : stats?.totalEmployees} />
@@ -92,53 +114,31 @@ export default function Dashboard() {
           </div>
         )}
 
-        {/* ================= QUICK ACTIONS ================= */}
+        {/* QUICK ACTIONS */}
         <div className="quick-actions">
           <h3>Quick Actions</h3>
-
           <div className="quick-actions-grid">
 
             {canPerform("employee", "create") && (
-              <button
-                className="quick-action-btn"
-                onClick={() => navigate("/employees/new")}
-              >
+              <button className="quick-action-btn" onClick={() => navigate("/employees/new")}>
                 Add Employee
               </button>
             )}
 
             {(role === "admin" || role === "hr") && (
-              <button
-                className="quick-action-btn"
-                onClick={() => navigate("/employees")}
-              >
+              <button className="quick-action-btn" onClick={() => navigate("/employees")}>
                 View Employees
               </button>
             )}
 
             {canPerform("leave", "approve") && (
-              <button
-                className="quick-action-btn"
-                onClick={() => navigate("/leaves")}
-              >
+              <button className="quick-action-btn" onClick={() => navigate("/leaves")}>
                 Approve Leaves
               </button>
             )}
 
-            {(role === "admin" || role === "hr" || role === "supervisor") && (
-              <button
-                className="quick-action-btn"
-                onClick={() => navigate("/grievances")}
-              >
-                View Grievances
-              </button>
-            )}
-
             {canPerform("transfer", "approve") && (
-              <button
-                className="quick-action-btn"
-                onClick={() => navigate("/transfers")}
-              >
+              <button className="quick-action-btn" onClick={() => navigate("/transfers")}>
                 Transfer Requests
               </button>
             )}
@@ -146,22 +146,14 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* ================= CHARTS ================= */}
+        {/* CHARTS */}
         <div className="charts-grid">
-
-          {/* EMPLOYEE DISTRIBUTION → ADMIN + HR */}
           {(role === "admin" || role === "hr") && (
             <div className="chart-card">
               <h3>Employee Distribution by Role</h3>
               <ResponsiveContainer width="100%" height={260}>
                 <PieChart>
-                  <Pie
-                    data={roleData}
-                    dataKey="value"
-                    nameKey="name"
-                    innerRadius={60}
-                    outerRadius={100}
-                  >
+                  <Pie data={roleData} dataKey="value" nameKey="name" innerRadius={60} outerRadius={100}>
                     {roleData.map((_, i) => (
                       <Cell key={i} fill={COLORS[i % COLORS.length]} />
                     ))}
@@ -172,7 +164,6 @@ export default function Dashboard() {
             </div>
           )}
 
-          {/* ATTENDANCE TREND → ALL ROLES */}
           <div className="chart-card">
             <h3>Attendance Trend (Last 7 Days)</h3>
             <ResponsiveContainer width="100%" height={260}>
@@ -181,24 +172,44 @@ export default function Dashboard() {
                 <XAxis dataKey="date" />
                 <YAxis />
                 <Tooltip />
-                <Line
-                  type="monotone"
-                  dataKey="count"
-                  stroke="#2563eb"
-                  strokeWidth={3}
-                />
+                <Line type="monotone" dataKey="count" stroke="#2563eb" strokeWidth={3} />
               </LineChart>
             </ResponsiveContainer>
           </div>
-
         </div>
+
+        {/* ================= MAP SECTION ================= */}
+        <div className="map-card">
+          <h3>Active Employees on Field</h3>
+
+          <MapContainer
+            center={[28.6139, 77.209]}
+            zoom={16}
+            style={{ height: "400px", width: "100%", borderRadius: "12px" }}
+          >
+            <TileLayer
+              attribution='&copy; OpenStreetMap contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+
+            {activeEmployees.map((emp, i) => (
+              <Marker key={i} position={[emp.lat, emp.lng]} icon={redIcon}>
+                <Popup>
+                  <strong>{emp.name}</strong>
+                  <br />
+                  Status: Active
+                </Popup>
+              </Marker>
+            ))}
+          </MapContainer>
+        </div>
+
       </div>
     </div>
   );
 }
 
-/* ================= COMPONENT ================= */
-
+/* ===== COMPONENT ===== */
 function StatCard({ title, value }) {
   return (
     <div className="stat-card">

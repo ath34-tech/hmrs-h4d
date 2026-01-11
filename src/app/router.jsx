@@ -25,7 +25,15 @@ import PayrollCycles from "../pages/payroll/PayrollCycles";
 import PayslipList from "../pages/payroll/PayslipList";
 import PayrollGenerate from "../pages/payroll/PayrollGenerate";
 import ReportsDashboard from "../pages/reports/ReportsDashboard";
+import EmployeeDashboard from "../pages/employee-dashboard/EmployeeDashboard";
+import { getRole } from "../utils/access";
+import MarkAttendance from "../pages/employee-dashboard/MarkAttendance";
+import ApplyLeave from "../pages/employee-dashboard/ApplyLeave";
+import RaiseGrievance from "../pages/employee-dashboard/RaiseGrievance";
+import ApplyTransfer from "../pages/employee-dashboard/ApplyTransfer";
+import EmployeeDashboardLayout from "../components/layout/EmployeeLayout";
 export default function Router() {
+  const role = getRole();
   return (
     <Routes>
       {/* -------- PUBLIC -------- */}
@@ -52,12 +60,12 @@ export default function Router() {
       {/* -------- PROTECTED (ADMIN) -------- */}
       <Route
         element={
-          <ProtectedRoute allowedRoles={["admin"]}>
-            <DashboardLayout />
+          <ProtectedRoute>
+            {role === "employee" ? <EmployeeDashboardLayout /> : <DashboardLayout />}
           </ProtectedRoute>
         }
       >
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={role === "employee" ? <EmployeeDashboard /> : <Dashboard />} />
 
         <Route path="/employees" element={<EmployeeList />} />
         <Route path="/employees/new" element={<EmployeeForm />} />
@@ -77,6 +85,10 @@ export default function Router() {
 <Route path="/payroll/:cycleId" element={<PayslipList />} />
 <Route path="/payroll/:cycleId/generate" element={<PayrollGenerate />} />
 <Route path="/reports" element={<ReportsDashboard />} />
+<Route path="/employee/attendance/mark" element={<MarkAttendance />} />
+<Route path="/employee/leaves/apply" element={<ApplyLeave />} />
+<Route path="/employee/grievances/new" element={<RaiseGrievance />} />
+<Route path="/employee/transfers/apply" element={<ApplyTransfer />} />
 
       </Route>
 

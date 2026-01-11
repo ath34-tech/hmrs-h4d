@@ -1,0 +1,41 @@
+.action-page {
+  max-width: 500px;
+  margin: 40px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+.action-page h1 {
+  margin-bottom: 20px;
+  color: #1e3a8a;
+}
+
+.action-page input,
+.action-page select,
+.action-page textarea {
+  width: 100%;
+  margin-bottom: 14px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+}
+
+.action-page textarea {
+  resize: vertical;
+}
+
+.action-page button {
+  width: 100%;
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.action-page button:hover {
+  background: #1e40af;
+}

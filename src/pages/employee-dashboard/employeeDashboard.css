@@ -1,0 +1,95 @@
+.employee-dashboard-container {
+  display: flex;
+  min-height: 100vh;
+  background: #f8fafc;
+}
+
+.employee-dashboard-main {
+  flex: 1;
+  padding: 30px;
+}
+
+.employee-dashboard-main h1 {
+  margin-bottom: 20px;
+  color: #1e3a8a;
+}
+
+.employee-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.employee-actions button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.employee-actions button:hover {
+  background: #1e40af;
+}
+
+.employee-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+}
+
+.summary-card {
+  background: white;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+.summary-card p {
+  color: #64748b;
+}
+
+.summary-card h2 {
+  color: #2563eb;
+  margin-top: 10px;
+}
+.employee-section {
+  margin-bottom: 40px;
+}
+
+.employee-section h2 {
+  margin-bottom: 12px;
+  color: #1e3a8a;
+}
+
+.employee-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.employee-table th,
+.employee-table td {
+  padding: 12px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+}
+
+.employee-table th {
+  background: #f1f5f9;
+  color: #334155;
+}
+
+.employee-table tr:last-child td {
+  border-bottom: none;
+}
+
+.employee-table .empty {
+  text-align: center;
+  color: #64748b;
+}
