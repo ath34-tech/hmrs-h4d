@@ -88,3 +88,40 @@
 .logout-btn:hover {
   background-color: #8e0202;
 }
+
+/* =========================================================
+   EMPLOYEE SIDEBAR (extends Admin sidebar styles)
+========================================================= */
+
+/* Change header color for employee panel */
+.sidebar-header span {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* When Employee Panel is active */
+.sidebar:has(.sidebar-header span:contains("Employee")) .sidebar-header h2 {
+  color: #1e40af;
+}
+
+/* Employee active link */
+.sidebar:has(.sidebar-header span:contains("Employee")) .sidebar-link.active {
+  background-color: #e0ecff;
+  color: #1e40af;
+  box-shadow: inset 4px 0 0 #1e40af;
+}
+
+/* Employee hover */
+.sidebar:has(.sidebar-header span:contains("Employee")) .sidebar-link:hover {
+  background-color: #eef4ff;
+  color: #1e40af;
+}
+
+/* Employee Logout Button */
+.sidebar:has(.sidebar-header span:contains("Employee")) .logout-btn {
+  background-color: #1e40af;
+}
+
+.sidebar:has(.sidebar-header span:contains("Employee")) .logout-btn:hover {
+  background-color: #172554;
+}

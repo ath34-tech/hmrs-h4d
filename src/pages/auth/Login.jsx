@@ -18,14 +18,23 @@ export default function Login() {
 
     try {
       setLoading(true);
-      await signIn(email, password);
-      navigate("/dashboard");
+
+      const role = await signIn(email, password);   //  get role
+
+      // route based on role
+      if (role === "employee") {
+        navigate("/employee/dashboard");
+      } else {
+        navigate("/dashboard");
+      }
+
     } catch (err) {
       alert(err.message);
     } finally {
       setLoading(false);
     }
   };
+
 
   return (
     <div className="auth-page">

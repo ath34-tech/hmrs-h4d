@@ -74,7 +74,7 @@ export default function Router() {
           </ProtectedRoute>
         }
       >
-        <Route path="/dashboard" element={<EmployeeDashboard />} />
+        <Route path="/employee/dashboard" element={<EmployeeDashboard />} />
         <Route path="/employee/attendance/mark" element={<MarkAttendance />} />
         <Route path="/employee/leaves/apply" element={<ApplyLeave />} />
         <Route path="/employee/grievances/new" element={<RaiseGrievance />} />
