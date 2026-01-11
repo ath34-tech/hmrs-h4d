@@ -6,7 +6,9 @@ import {
   getEmployeeRoleDistribution,
   getAttendanceTrend,
 } from "../../services/dashboardService";
+
 import { useNavigate } from "react-router-dom";
+import { canPerform } from "../../utils/access";
 
 import {
   PieChart,
@@ -29,7 +31,11 @@ export default function Dashboard() {
   const [roleData, setRoleData] = useState([]);
   const [attendanceData, setAttendanceData] = useState([]);
   const [loading, setLoading] = useState(true);
-const navigate = useNavigate();
+
+  const navigate = useNavigate();
+
+  // 🔑 Normalize role (THIS FIXES HR ISSUE)
+  const role = localStorage.getItem("role")?.toLowerCase().trim();
 
   useEffect(() => {
     loadDashboard();
@@ -37,27 +43,22 @@ const navigate = useNavigate();
 
   const loadDashboard = async () => {
     try {
-      const [
-        statsRes,
-        roleDistribution,
-        attendanceTrend,
-      ] = await Promise.all([
-        getDashboardStats(),
-        getEmployeeRoleDistribution(),
-        getAttendanceTrend(7),
-      ]);
+      const [statsRes, roleDistribution, attendanceTrend] =
+        await Promise.all([
+          getDashboardStats(),
+          getEmployeeRoleDistribution(),
+          getAttendanceTrend(7),
+        ]);
 
       setStats(statsRes);
 
-      // Convert role object → chart array
       setRoleData(
-        Object.entries(roleDistribution).map(([role, count]) => ({
-          name: role,
+        Object.entries(roleDistribution).map(([r, count]) => ({
+          name: r,
           value: count,
         }))
       );
 
-      // Convert attendance object → sorted array
       setAttendanceData(
         Object.entries(attendanceTrend)
           .map(([date, count]) => ({ date, count }))
@@ -69,73 +70,109 @@ const navigate = useNavigate();
       setLoading(false);
     }
   };
+
   return (
     <div className="dashboard-container">
-
       <div className="dashboard-main">
-        {/* HEADER */}
+
+        {/* ================= HEADER ================= */}
         <div className="dashboard-header">
-          <h1>Admin Dashboard</h1>
+          <h1>Dashboard</h1>
           <p>System overview and analytics</p>
         </div>
 
-        {/* STATS */}
-        <div className="stats-grid">
-          <StatCard title="Total Employees" value={loading ? "—" : stats.totalEmployees} />
-          <StatCard title="Active Employees" value={loading ? "—" : stats.activeEmployees} />
-          <StatCard title="Pending Leaves" value={loading ? "—" : stats.pendingLeaves} />
-          <StatCard title="Open Grievances" value={loading ? "—" : stats.openGrievances} />
-          <StatCard title="Pending Transfers" value={loading ? "—" : stats.pendingTransfers} />
-        </div>
+        {/* ================= STATS (ADMIN + HR) ================= */}
+        {(role === "admin" || role === "hr") && (
+          <div className="stats-grid">
+            <StatCard title="Total Employees" value={loading ? "—" : stats?.totalEmployees} />
+            <StatCard title="Active Employees" value={loading ? "—" : stats?.activeEmployees} />
+            <StatCard title="Pending Leaves" value={loading ? "—" : stats?.pendingLeaves} />
+            <StatCard title="Open Grievances" value={loading ? "—" : stats?.openGrievances} />
+            <StatCard title="Pending Transfers" value={loading ? "—" : stats?.pendingTransfers} />
+          </div>
+        )}
 
-        {/* QUICK ACTIONS */}
+        {/* ================= QUICK ACTIONS ================= */}
         <div className="quick-actions">
           <h3>Quick Actions</h3>
-          <div className="quick-actions-grid">
- <button
-  className="quick-action-btn"
-  onClick={() => navigate("/employees/new")}
->
-  Add Employee
-</button>
 
-<button
-  className="quick-action-btn"
-  onClick={() => navigate("/employees")}
->
-  View Employees
-</button>
-            <button className="quick-action-btn"   onClick={() => navigate("/leaves")}
->Approve Leaves</button>
-            <button className="quick-action-btn"  onClick={() => navigate("/grievances")}>View Grievances</button>
-            <button className="quick-action-btn" onClick={() => navigate("/transfers")}>Transfer Requests</button>
+          <div className="quick-actions-grid">
+
+            {canPerform("employee", "create") && (
+              <button
+                className="quick-action-btn"
+                onClick={() => navigate("/employees/new")}
+              >
+                Add Employee
+              </button>
+            )}
+
+            {(role === "admin" || role === "hr") && (
+              <button
+                className="quick-action-btn"
+                onClick={() => navigate("/employees")}
+              >
+                View Employees
+              </button>
+            )}
+
+            {canPerform("leave", "approve") && (
+              <button
+                className="quick-action-btn"
+                onClick={() => navigate("/leaves")}
+              >
+                Approve Leaves
+              </button>
+            )}
+
+            {(role === "admin" || role === "hr" || role === "supervisor") && (
+              <button
+                className="quick-action-btn"
+                onClick={() => navigate("/grievances")}
+              >
+                View Grievances
+              </button>
+            )}
+
+            {canPerform("transfer", "approve") && (
+              <button
+                className="quick-action-btn"
+                onClick={() => navigate("/transfers")}
+              >
+                Transfer Requests
+              </button>
+            )}
+
           </div>
         </div>
 
-        {/* CHARTS */}
+        {/* ================= CHARTS ================= */}
         <div className="charts-grid">
-          {/* GRAPH 1 */}
-          <div className="chart-card">
-            <h3>Employee Distribution by Role</h3>
-            <ResponsiveContainer width="100%" height={260}>
-              <PieChart>
-                <Pie
-                  data={roleData}
-                  dataKey="value"
-                  nameKey="name"
-                  innerRadius={60}
-                  outerRadius={100}
-                >
-                  {roleData.map((_, i) => (
-                    <Cell key={i} fill={COLORS[i % COLORS.length]} />
-                  ))}
-                </Pie>
-                <Tooltip />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
 
-          {/* GRAPH 2 */}
+          {/* EMPLOYEE DISTRIBUTION → ADMIN + HR */}
+          {(role === "admin" || role === "hr") && (
+            <div className="chart-card">
+              <h3>Employee Distribution by Role</h3>
+              <ResponsiveContainer width="100%" height={260}>
+                <PieChart>
+                  <Pie
+                    data={roleData}
+                    dataKey="value"
+                    nameKey="name"
+                    innerRadius={60}
+                    outerRadius={100}
+                  >
+                    {roleData.map((_, i) => (
+                      <Cell key={i} fill={COLORS[i % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          )}
+
+          {/* ATTENDANCE TREND → ALL ROLES */}
           <div className="chart-card">
             <h3>Attendance Trend (Last 7 Days)</h3>
             <ResponsiveContainer width="100%" height={260}>
@@ -153,13 +190,14 @@ const navigate = useNavigate();
               </LineChart>
             </ResponsiveContainer>
           </div>
+
         </div>
       </div>
     </div>
   );
 }
 
-/* ================= COMPONENTS ================= */
+/* ================= COMPONENT ================= */
 
 function StatCard({ title, value }) {
   return (

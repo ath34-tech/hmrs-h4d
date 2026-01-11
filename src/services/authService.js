@@ -50,26 +50,26 @@ export const signIn = async (email, password) => {
     .eq("email", email)
     .eq("password", password)
     .single();
-
   if (profileError || !profile) {
     throw new Error("Invalid email or password");
   }
 
   // 2. Fetch employee role
+  if(profile.role !== 'admin'){
   const { data: employee, error: employeeError } = await supabase
     .from("employees")
     .select("*")
     .eq("profile_id", profile.id)
     .single();
-
+  
   if (employeeError || !employee) {
     throw new Error("Employee record not found");
   }
-
+  }
   // 3. Store session (frontend-only)
   localStorage.setItem("user", JSON.stringify({
     profileId: profile.id,
-    employeeId: employee.id,
+    employeeId: profile.role === 'admin' ? null : employee.id,
     email: profile.email,
     role: profile.role,
   }));

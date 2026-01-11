@@ -10,7 +10,7 @@ export const getDashboardStats = async () => {
   ] = await Promise.all([
     supabase.from("employees").select("*", { count: "exact", head: true }),
     supabase
-      .from("employees")
+      .from("profiles")
       .select("*", { count: "exact", head: true })
       .eq("status", "active"),
     supabase
