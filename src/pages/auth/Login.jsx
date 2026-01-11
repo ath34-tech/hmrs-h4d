@@ -60,10 +60,9 @@ export default function Login() {
           {loading ? "Logging in..." : "Login"}
         </button>
 
-        <div className="auth-link">
-          Don’t have an account?{" "}
-          <span onClick={() => navigate("/signup")}>Sign up</span>
-        </div>
+        <p className="auth-note">
+          Restricted to authorised government personnel only
+        </p>
       </div>
     </div>
   );
