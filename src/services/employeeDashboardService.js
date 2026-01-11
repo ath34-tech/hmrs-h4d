@@ -3,8 +3,10 @@ import { supabase } from "../app/supabase";
 /* ================= HELPERS ================= */
 
 // profile_id is stored after login
-const getProfileId = () => localStorage.getItem("profile_id");
-
+export const getProfileId = () => {
+  const user = localStorage.getItem("user");
+  return user ? JSON.parse(user).employeeId : null;
+};
 /* ================= DASHBOARD DATA ================= */
 
 export const getMyAttendance = async () => {
@@ -61,4 +63,23 @@ export const getMyTransfers = async () => {
 
   if (error) throw error;
   return data;
+};
+export const markAttendance = async ({ status, check_in, check_out }) => {
+  const employeeId = getProfileId();
+  console.log("Employee ID:", employeeId);
+  if (!employeeId) {
+    throw new Error("Employee not logged in");
+  }
+
+  const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+
+  const { error } = await supabase.from("attendance").insert({
+    employee_id: employeeId,
+    attendance_date: today,
+    status,
+    check_in,
+    check_out,
+  });
+
+  if (error) throw error;
 };
