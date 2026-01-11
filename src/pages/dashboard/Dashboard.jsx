@@ -6,7 +6,7 @@ import {
   getEmployeeRoleDistribution,
   getAttendanceTrend,
 } from "../../services/dashboardService";
-
+import AdminChatWidget from "../../components/chatbot/AdminChatWidget";
 import { useNavigate } from "react-router-dom";
 import { canPerform } from "../../utils/access";
 
@@ -205,6 +205,7 @@ export default function Dashboard() {
         </div>
 
       </div>
+      <AdminChatWidget/>
     </div>
   );
 }
