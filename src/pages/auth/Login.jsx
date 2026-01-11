@@ -19,7 +19,7 @@ export default function Login() {
     try {
       setLoading(true);
 
-      const role = await signIn(email, password);   //  get role
+      const role = await signIn(email, password);   // ~ get role
 
       // route based on role
       if (role === "employee") {
