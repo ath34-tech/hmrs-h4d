@@ -50,31 +50,39 @@ export const signIn = async (email, password) => {
     .eq("email", email)
     .eq("password", password)
     .single();
+
   if (profileError || !profile) {
     throw new Error("Invalid email or password");
   }
 
-  // 2. Fetch employee role
-  if(profile.role !== 'admin'){
-  const { data: employee, error: employeeError } = await supabase
-    .from("employees")
-    .select("*")
-    .eq("profile_id", profile.id)
-    .single();
-  
-  if (employeeError || !employee) {
-    throw new Error("Employee record not found");
+  // 2. Fetch employee (ONLY if not admin)
+  let employee = null;
+
+  if (profile.role !== "admin") {
+    const { data, error } = await supabase
+      .from("employees")
+      .select("id, profile_id")
+      .eq("profile_id", profile.id)
+      .single();
+
+    if (error || !data) {
+      throw new Error("Employee record not found");
+    }
+
+    employee = data;
   }
-  }
-  // 3. Store session (frontend-only)
-  localStorage.setItem("user", JSON.stringify({
-    profileId: profile.id,
-    employeeId: profile.role === 'admin' ? null : employee.id,
-    email: profile.email,
-    role: profile.role,
-  }));
-  // console.log("ROLE:", profile);
-  // console.log("EMPLOYEE ROLE:", employee.role);
+
+  // 3. Store session
+  localStorage.setItem(
+    "user",
+    JSON.stringify({
+      profileId: profile.id,
+      employeeId: employee ? employee.id : null,
+      email: profile.email,
+      role: profile.role,
+    })
+  );
+
   localStorage.setItem("role", profile.role);
 
   return profile.role;
