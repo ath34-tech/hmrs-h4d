@@ -64,7 +64,17 @@ export default function Router() {
         }
       />
 
-      <Route path="/" element={<Navigate to="/login" />} />
+      <Route
+        path="/"
+        element={
+          role
+            ? role === "employee"
+              ? <Navigate to="/employee/dashboard" />
+              : <Navigate to="/dashboard" />
+            : <Navigate to="/login" />
+        }
+      />
+
 
       {/* ================= EMPLOYEE ================= */}
       <Route
@@ -74,7 +84,7 @@ export default function Router() {
           </ProtectedRoute>
         }
       >
-        <Route path="/dashboard" element={<EmployeeDashboard />} />
+        <Route path="/employee/dashboard" element={<EmployeeDashboard />} />
         <Route path="/employee/attendance/mark" element={<MarkAttendance />} />
         <Route path="/employee/leaves/apply" element={<ApplyLeave />} />
         <Route path="/employee/grievances/new" element={<RaiseGrievance />} />
@@ -127,7 +137,15 @@ export default function Router() {
       </Route>
 
       {/* ================= FALLBACK ================= */}
-      <Route path="*" element={<Navigate to="/dashboard" />} />
+      <Route
+        path="*"
+        element={
+          role === "employee"
+            ? <Navigate to="/employee/dashboard" />
+            : <Navigate to="/dashboard" />
+        }
+      />
+
     </Routes>
   );
 }

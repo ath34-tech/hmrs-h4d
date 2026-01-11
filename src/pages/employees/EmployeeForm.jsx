@@ -63,22 +63,36 @@ export default function EmployeeForm() {
   };
 
   const handleSubmit = async () => {
-    if (id) {
-      await updateEmployee(id, {
-        full_name: form.full_name,
-        phone: form.phone,
-        address: form.address,
-        role: form.role,
-        status: form.status,
-        department_id: form.department_id,
-        zone_id: form.zone_id,
-        designation: form.designation,
-      });
-    } else {
-      await createEmployee(form);
+    if (!form.full_name || !form.email || (!id && !form.password)) {
+      alert("Name, email and password are required");
+      return;
     }
 
-    navigate("/employees");
+    if (!form.department_id || !form.zone_id) {
+      alert("Please select Department and Zone");
+      return;
+    }
+
+    try {
+      if (id) {
+        await updateEmployee(id, {
+          full_name: form.full_name,
+          phone: form.phone,
+          address: form.address,
+          role: form.role,
+          status: form.status,
+          department_id: form.department_id,
+          zone_id: form.zone_id,
+          designation: form.designation,
+        });
+      } else {
+        await createEmployee(form);
+      }
+
+      navigate("/employees");
+    } catch (err) {
+      alert(err.message);
+    }
   };
 
   return (

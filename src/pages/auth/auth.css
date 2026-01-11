@@ -104,3 +104,11 @@
   font-weight: 600;
   cursor: pointer;
 }
+
+.auth-note {
+  margin-top: 12px;
+  text-align: center;
+  font-size: 13px;
+  color: #64748b;
+  font-style: bold;
+}
